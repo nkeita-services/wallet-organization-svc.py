@@ -1,0 +1,341 @@
+openapi: 3.0.0
+info:
+  title: Wallet Account Service
+  version: 0.0.1
+  description: |
+    Wallet Account Service is a REST HTTP API for managing wallet accounts. It exposes REST endpoint for
+    * Creating wallet accounts
+    * Retrieving wallet account Information
+    * Updating wallet accounts
+
+    User Kyc level and kyc documents are not handled by this service. Instead we use a different service for kyc related operations
+
+    # Security
+
+    This service is not publicly accessible. Only the Wallet Gateway Service can make calls to its endpoints
+
+    ## Authentication
+
+    Access to the API is controlled by Oauth2 Client Credentials Grant
+    The client needs to request an access token from the oauth2 server. It provides its client id and client secret.
+    Then all requests to the Wallet Account User Service must be made over HTTP/HTTPS with this access token
+
+    # Responses
+
+    ## HTTP Response Codes
+    | Status Code | Usage                                                       |
+    |-------------|-------------------------------------------------------------|
+    | 200         | The request completed successfully                          |
+    | 201         | A new resource has been created                             |
+    | 400         | Malformed request                                           |
+    | 401         | Missing access token                                        |
+    | 403         | The client does not have permission to access this resource |
+    | 404         | Resource not found                                          |
+    | 405         | Method not supported                                        |
+    | 500         | Internal server error                                       |
+    | 503         | Service unvailable                                          |
+
+    ## Errors
+    whenever an error occured within the platform, an error response that describes the problem will be returned
+
+    | Field Name        | Field Description     |
+    |-------------------|-----------------------|
+    | Status            | "fail" or "error"     |
+    | StatusCode        | A business error code |
+    | StatusDescription | Error description     |
+
+    ## Error codes
+
+    | Error Code | Error Description                                |
+    |------------|--------------------------------------------------|
+    | 4001       | Can't obtain the list of wallet account users    |
+    | 4010       | Can't create the wallet account user             |
+    | 4020       | Wallet account user not found                    |
+    | 4030       | Can't obtain wallet account user data            |
+    | 4040       | Unable to update wallet account user informatiom |
+    |            |                                                  |
+
+    # Changelog
+
+    ## 2019-11-05
+    * Created .....
+
+    # Useful links
+  termsOfService: 'http://swagger.io/terms/'
+  x-logo:
+    url: '/static/img/NBK_logo.jpeg'
+    backgroundColor: '#FFFFFF'
+    altText: NBK Logo
+servers:
+  - url: 'https://wallet-account-user-svc-fjhmnd5asa-ew.a.run.app'
+    description: Testing Server
+tags:
+  - name: Wallet Account Users
+    description: Wallet Account Users are used to handle wallet operations on user data
+    externalDocs:
+      url: 'https://wallet-gateway-svc-uzqgb7lfiq-ew.a.run.app'
+paths:
+  /v1/users:
+    get:
+      summary: Obtain a list of wallet account users
+      tags:
+        - Wallet Account Users
+      responses:
+        '200':
+          description: Successfully obtained the list of wallet account users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ResponseStatus'
+                  data:
+                    type: object
+                    properties:
+                      walletAccountUser:
+                        $ref: '#/components/schemas/WalletAccountUsersWithId'
+
+        '500':
+          description: Error when obtaining the list of wallet account users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: fail
+                statusCode: 4001
+                statusDescription: Error when obtaining the list of wallet account users
+
+    post:
+      summary: Create a Wallet Account User
+      tags:
+        - Wallet Account Users
+      requestBody:
+        description: The wallet account user specification
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletAccountUser'
+      responses:
+        '201':
+          description: Successfully created a wallet account user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ResponseStatus'
+                  data:
+                    type: object
+                    properties:
+                      walletAccountUser:
+                        $ref: '#/components/schemas/WalletAccountUserWithId'
+        '500':
+          description: Error when creating the wallet account user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: fail
+                statusCode: 4010
+                statusDescription: Error when creating the wallet account user
+  /v1/users/{userId}:
+    get:
+      summary: Fetch user data
+      tags:
+       - Wallet Account Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6784bbea-ea94-426e-bb64-594eeee6cb03
+      responses:
+        '200':
+          description: Successfully fetched a wallet account user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ResponseStatus'
+                  data:
+                    type: object
+                    properties:
+                      walletAccountUser:
+                        $ref: '#/components/schemas/WalletAccountUserWithId'
+        '404':
+          description: wallet account user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: fail
+                statusCode: 4020
+                statusDescription: wallet account user not found
+        '500':
+          description: Error when fetching the wallet account user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: fail
+                statusCode: 4021
+                statusDescription: Error when fetching the wallet account user
+    patch:
+      summary: Update a Wallet Account User
+      tags:
+        - Wallet Account Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 6784bbea-ea94-426e-bb64-594eeee6cb03
+      requestBody:
+        description: The wallet account user specification
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WalletAccountUser'
+      responses:
+        '201':
+          description: Successfully updated a wallet account user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    $ref: '#/components/schemas/ResponseStatus'
+                  data:
+                    type: object
+                    properties:
+                      walletAccountUser:
+                        $ref: '#/components/schemas/WalletAccountUserWithId'
+        '500':
+          description: Error when updating the wallet account user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                status: fail
+                statusCode: 4030
+                statusDescription: Error when updating the wallet account user information
+
+components:
+  schemas:
+    ResponseStatus:
+      type: string
+      enum:
+        - success
+        - fail
+        - error
+    ErrorResponseStatus:
+      type: string
+      enum:
+        - fail
+        - error
+    ResponseStatusCode:
+      type: number
+      example: 1023
+    ResponseStatusDescription:
+      type: string
+      example: The wallet plan does not exist within the system
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/ErrorResponseStatus'
+        statusCode:
+          $ref: '#/components/schemas/ResponseStatusCode'
+        statusDescription:
+          $ref: '#/components/schemas/ResponseStatusDescription'
+    Address:
+      type: object
+      properties:
+        streetName:
+          type: string
+          example: Astra House
+        streetNumber:
+          type: string
+          example: 201
+        city:
+          type: string
+          example: New Cross
+        postCode:
+          type: string
+          example: SE14 24
+        state:
+          type: string
+          example: London
+        country:
+          type: string
+          example: United Kingdom
+    WalletAccountUser:
+      type: object
+      properties:
+        lastName:
+          type: string
+          description: User last name
+          example: John
+        firstName:
+          type: string
+          description: User first name
+          example: Doe
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+          description: user email address
+          format: email
+          example: my-email@gmail.com
+        phoneNumber:
+          type: string
+          description: User phone number
+          example: 00447307568957
+        mobileNumber:
+          type: string
+          description: User mobile number
+          example: 00447307568957
+        language:
+          type: string
+          description: User language
+          example: en
+        walletOrganizations:
+          type: array
+          items:
+            type: string
+            format: uuid
+            example: 3288603f-adf8-453e-b4e9-cbad4805f86c
+    WalletAccountUserWithId:
+      allOf:
+        - $ref: '#/components/schemas/WalletAccountUser'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: The user identifier
+              format: uuid
+              example: 45466ea6-512d-42c7-b57f-d11c53890456
+    WalletAccountUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletAccountUser'
+    WalletAccountUsersWithId:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletAccountUserWithId'
