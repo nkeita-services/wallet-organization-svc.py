@@ -7,6 +7,6 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
     config={
-        'app_name': "Wallet Account"
+        'app_name': "Wallet Organization"
     }
 )
