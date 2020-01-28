@@ -27,6 +27,10 @@ class OrganizationService:
     def update(self, organization_id, data):
         pass
 
+    # def update(self, plan_id, plan_entity: PlanEntity):
+    #     plan_entity = self.plan_repository.update(plan_id, plan_entity)
+    #     return UpdateResponse(plan_entity)
+
 
 class CreateUserResponse:
 

@@ -16,7 +16,7 @@ services:
       DB_MONGO_URI_SCHEME: mongodb
       DB_MONGO_DATABASE: walletDB
     ports:
-      - "8082:80"
+      - "8082:8088"
   db:
     image: mongo
     restart: always

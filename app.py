@@ -1,5 +1,5 @@
 from flask_jsonschema_validator import JSONSchemaValidator
-from flask import Flask, jsonify, request, Response, redirect
+from flask import Flask, jsonify, request, redirect
 import swagger
 import jsonschema
 
@@ -9,9 +9,12 @@ from src.domain.organization.organization_service import OrganizationService, Or
 from src.infrastructure.storage.database.mongo_db.mongo_client import MongodbClient
 import config
 
-app = Flask(__name__, static_url_path='/static')
-JSONSchemaValidator(app=app, root="schemas")
+from error_handler import error_handler
 
+app = Flask(__name__, static_url_path='/static')
+app.register_blueprint(error_handler)
+
+JSONSchemaValidator(app=app, root="schemas")
 app.register_blueprint(swagger.swagger_ui_blueprint, url_prefix=swagger.SWAGGER_URL)
 
 mongodb_client = MongodbClient()
@@ -49,10 +52,23 @@ def fetch(organization_id: str):
             {"status": "fail", "statusCode": "4020", "statusDescription": "wallet organization not found"}), 404
 
 
+@app.route('/v1/organizations/<string:organization_id>', methods=['PATCH'])
+def update(organization_id: str):
+    update_response = organization_service.update(organization_id,
+                                                  OrganizationEntity.from_json_request(json_request=request.get_json()))
+    return jsonify(status='success', data={'walletOrganization': update_response.to_dict()})
+
+
 @app.errorhandler(jsonschema.ValidationError)
 def on_validation_error(e):
     return jsonify(
         {"status": "error", "statusCode": "6000", "statusDescription": e.message}), 400
+
+
+@app.errorhandler(Exception)
+def global_error(e):
+    return jsonify(
+        {"status": "error", "statusCode": "6050", "statusDescription": 'System Error'}), 500
 
 
 if __name__ == "__main__":

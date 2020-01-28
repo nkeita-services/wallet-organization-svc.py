@@ -32,6 +32,13 @@ class OrganizationEntity:
                    address=OrganizationAddress.from_mongodb_document(document['address']), email=document['email'],
                    phone_number=document['phone_number'], mobile_number=document['mobile_number'])
 
+    def to_mongodb_document(self):
+        document = {}
+        for name, value in self.to_dict().items():
+            if value is not None:
+                document[name] = value
+        return document
+
     def to_dict(self):
         organization_dict = self.__dict__
         organization_dict['address'] = organization_dict['address'].to_dict()

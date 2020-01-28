@@ -54,6 +54,7 @@ info:
     | 6030       | Can't obtain wallet organization data            |
     | 6040       | Unable to update wallet organization data        |
     | 6000       | Invalid Request                                  |
+    | 6050       | System Error                                     |
 
     # Changelog
 

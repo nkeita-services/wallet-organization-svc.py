@@ -23,6 +23,11 @@ class OrganizationRepository:
             raise OrganizationNotFoundException('organization %s not found' % organization_id)
         return OrganizationEntity.from_mongodb_document(document)
 
+    def update(self, organization_id, organization_entity: OrganizationEntity) -> OrganizationEntity:
+        update_one_result = self.mongodb_organization_collection.update_one({'_id': ObjectId(organization_id)},
+                                                                    {'$set': organization_entity.to_mongodb_document()})
+        return self.fetch(organization_id)
+
 
 class OrganizationNotFoundException(Exception):
     def __init__(self, message):
