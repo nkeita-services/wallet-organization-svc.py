@@ -1,4 +1,4 @@
-class UserAddress:
+class OrganizationAddress:
 
     def __init__(self, street_name: str, street_number: int,
                  city: str, post_code: str, state: str, country: str):

@@ -40,6 +40,6 @@ pip freeze > requirements.txt
 ## Environments
 | ENVIRONMENTS | URL                                                        |
 |--------------|------------------------------------------------------------|
-| DEV          | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
-| STAGING      | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
-| PRODUCTION   | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
+| DEV          | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |
+| STAGING      | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |
+| PRODUCTION   | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |

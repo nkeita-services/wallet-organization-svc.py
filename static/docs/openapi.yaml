@@ -53,7 +53,7 @@ info:
     | 6020       | Wallet organization not found                    |
     | 6030       | Can't obtain wallet organization data            |
     | 6040       | Unable to update wallet organization data        |
-    |            |                                                  |
+    | 6000       | Invalid Request                                  |
 
     # Changelog
 
@@ -67,7 +67,7 @@ info:
     backgroundColor: '#FFFFFF'
     altText: NBK Logo
 servers:
-  - url: 'https://wallet-account-user-svc-fjhmnd5asa-ew.a.run.app'
+  - url: 'https://wallet-account-organization-svc-fjhmnd5asa-ew.a.run.app'
     description: Testing Server
 tags:
   - name: Wallet Organizations
@@ -224,7 +224,7 @@ paths:
                       walletOrganization:
                         $ref: '#/components/schemas/WalletOrganizationWithId'
         '500':
-          description: Error when updating the wallet account user information
+          description: Error when updating the wallet account organization information
           content:
             application/json:
               schema:
@@ -232,7 +232,7 @@ paths:
               example:
                 status: fail
                 statusCode: 4030
-                statusDescription: Error when updating the wallet account user information
+                statusDescription: Error when updating the wallet account organization information
 
 components:
   schemas:

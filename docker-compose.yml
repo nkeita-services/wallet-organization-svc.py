@@ -8,7 +8,7 @@ services:
         source: .
         target: /app
     environment:
-      PORT: 80
+      PORT: 8088
       DB_MONGO_USERNAME: root
       DB_MONGO_PASSWORD: wallet
       DB_MONGO_HOST: db
