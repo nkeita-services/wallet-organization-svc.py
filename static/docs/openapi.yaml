@@ -3,12 +3,13 @@ info:
   title: Wallet Organization
   version: 0.0.1
   description: |
-    Wallet Organization Service is a REST HTTP API for managing wallet organizations. It exposes REST endpoint for
+    Wallet Organization Service is a REST HTTP API for managing wallet organizations. A wallet organization is a company
+    or entity that is registered into the wallet platform ant that uses the wallet platform features.
+    Wallet Organization Service exposes REST endpoint for:
+
     * Creating wallet organizations
     * Retrieving wallet organization Information
     * Updating wallet organizations
-
-    User Kyc level and kyc documents are not handled by this service. Instead we use a different service for kyc related operations
 
     # Security
 
@@ -16,7 +17,7 @@ info:
 
     ## Authentication
 
-    Access to the API is controlled by Oauth2 Client Credentials Grant
+    Access to the API is controlled by an OpenID token
     The client needs to request an access token from the oauth2 server. It provides its client id and client secret.
     Then all requests to the Wallet Account User Service must be made over HTTP/HTTPS with this access token
 
