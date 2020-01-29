@@ -24,12 +24,9 @@ class OrganizationService:
         organization_entity = self.organization_repository.create(organization_entity)
         return CreateUserResponse(organization_entity)
 
-    def update(self, organization_id, data):
-        pass
-
-    # def update(self, plan_id, plan_entity: PlanEntity):
-    #     plan_entity = self.plan_repository.update(plan_id, plan_entity)
-    #     return UpdateResponse(plan_entity)
+    def update(self, plan_id, organization_entity: OrganizationEntity):
+        organization_entity = self.organization_repository.update(plan_id, organization_entity)
+        return UpdateResponse(organization_entity)
 
 
 class CreateUserResponse:
@@ -52,6 +49,14 @@ class FetchAllResponse:
 
 class FetchResponse:
 
+    def __init__(self, organization_entity: OrganizationEntity):
+        self.organization_entity = organization_entity
+
+    def to_dict(self):
+        return self.organization_entity.to_dict()
+
+
+class UpdateResponse:
     def __init__(self, organization_entity: OrganizationEntity):
         self.organization_entity = organization_entity
 
