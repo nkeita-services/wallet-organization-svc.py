@@ -44,7 +44,7 @@ class FetchAllResponse:
         self.organization_collection = organization_collection
 
     def to_dict(self):
-        return self.organization_collection.to_dict()
+        return self.organization_collection.to_list()
 
 
 class FetchResponse:
