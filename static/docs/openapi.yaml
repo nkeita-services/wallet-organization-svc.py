@@ -307,6 +307,10 @@ components:
           type: string
           description: wallet organization mobile number
           example: 00447307568957
+        applications:
+          $ref: '#/components/schemas/WalletClientApplications'
+        walletOrganizationDocuments:
+          $ref: '#/components/schemas/WalletOrganizationDocuments'
     WalletOrganizationWithId:
       allOf:
         - $ref: '#/components/schemas/WalletOrganization'
@@ -327,3 +331,41 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/WalletOrganizationWithId'
+    WalletClientApplication:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Application name
+          example: NBK App
+        credentials:
+          type: object
+          properties:
+            oauth2:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                  description: OAuth2 client identifier
+                  example: 1t37i9t15h3rvlib7g1u7odp23
+                clientSecret:
+                  type: string
+                  description: oauth2 client secret
+                  example: avqbjl9vfeo1spfhv5qfp4ojrplg6guf3gv44q1hpvffk6nab8g
+    WalletClientApplications:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletClientApplication'
+    WalletOrganizationDocument:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: Wallet document identifier
+          format: uuid
+          example: 45466ea6-512d-42c7-b57f-d11c53890456
+    WalletOrganizationDocuments:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletOrganizationDocument'
+

@@ -13,8 +13,13 @@ class OrganizationRepository:
         insert_one_result = self.mongodb_organization_collection.insert_one(organization_entity.to_dict())
         return self.fetch(insert_one_result.inserted_id)
 
-    def fetch_all(self) -> OrganizationCollection:
-        cursor = self.mongodb_organization_collection.find(limit=10)
+    def fetch_all(self, filters) -> OrganizationCollection:
+        query = {}
+
+        if 'clientId' in filters:
+            query['applications.credentials.oauth2.clientId'] = filters['clientId']
+
+        cursor = self.mongodb_organization_collection.find(query)
         return OrganizationCollection.from_mongodb_cursor(cursor)
 
     def fetch(self, organization_id) -> OrganizationEntity:

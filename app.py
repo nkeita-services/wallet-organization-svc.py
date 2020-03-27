@@ -38,7 +38,7 @@ def create():
 
 @app.route('/v1/organizations', methods=['GET'])
 def fetch_all():
-    fetch_all_response = organization_service.fetch_all()
+    fetch_all_response = organization_service.fetch_all(request.args)
     return jsonify(status='success', data={'walletOrganizations': fetch_all_response.to_dict()})
 
 

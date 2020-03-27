@@ -16,8 +16,8 @@ class OrganizationService:
         except OrganizationNotFoundRepositoryException as e:
             raise OrganizationNotFoundException(e.__str__())
 
-    def fetch_all(self):
-        organization_collection = self.organization_repository.fetch_all()
+    def fetch_all(self, filters):
+        organization_collection = self.organization_repository.fetch_all(filters)
         return FetchAllResponse(organization_collection)
 
     def create(self, organization_entity: OrganizationEntity):
