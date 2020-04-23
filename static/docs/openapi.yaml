@@ -75,7 +75,7 @@ tags:
   - name: Wallet Organizations
     description: Wallet Organizations are used to handle operations on wallet organizations
     externalDocs:
-      url: 'https://wallet-gateway-svc-uzqgb7lfiq-ew.a.run.app'
+      url: 'https://wallet-account-organization-svc-fjhmnd5asa-ew.a.run.app'
 paths:
   /v1/organizations:
     get:
