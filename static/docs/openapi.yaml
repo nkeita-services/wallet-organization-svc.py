@@ -1,14 +1,15 @@
 openapi: 3.0.0
 info:
-  title: Wallet Account Service
+  title: Wallet Organization
   version: 0.0.1
   description: |
-    Wallet Account Service is a REST HTTP API for managing wallet accounts. It exposes REST endpoint for
-    * Creating wallet accounts
-    * Retrieving wallet account Information
-    * Updating wallet accounts
+    Wallet Organization Service is a REST HTTP API for managing wallet organizations. A wallet organization is a company
+    or entity that is registered into the wallet platform ant that uses the wallet platform features.
+    Wallet Organization Service exposes REST endpoint for:
 
-    User Kyc level and kyc documents are not handled by this service. Instead we use a different service for kyc related operations
+    * Creating wallet organizations
+    * Retrieving wallet organization Information
+    * Updating wallet organizations
 
     # Security
 
@@ -16,7 +17,7 @@ info:
 
     ## Authentication
 
-    Access to the API is controlled by Oauth2 Client Credentials Grant
+    Access to the API is controlled by an OpenID token
     The client needs to request an access token from the oauth2 server. It provides its client id and client secret.
     Then all requests to the Wallet Account User Service must be made over HTTP/HTTPS with this access token
 
@@ -48,16 +49,17 @@ info:
 
     | Error Code | Error Description                                |
     |------------|--------------------------------------------------|
-    | 4001       | Can't obtain the list of wallet account users    |
-    | 4010       | Can't create the wallet account user             |
-    | 4020       | Wallet account user not found                    |
-    | 4030       | Can't obtain wallet account user data            |
-    | 4040       | Unable to update wallet account user informatiom |
-    |            |                                                  |
+    | 6001       | Can't obtain list of wallet organizations        |
+    | 6010       | Can't create wallet organization                 |
+    | 6020       | Wallet organization not found                    |
+    | 6030       | Can't obtain wallet organization data            |
+    | 6040       | Unable to update wallet organization data        |
+    | 6000       | Invalid Request                                  |
+    | 6050       | System Error                                     |
 
     # Changelog
 
-    ## 2019-11-05
+    ## 2019-01-05
     * Created .....
 
     # Useful links
@@ -67,22 +69,22 @@ info:
     backgroundColor: '#FFFFFF'
     altText: NBK Logo
 servers:
-  - url: 'https://wallet-account-user-svc-fjhmnd5asa-ew.a.run.app'
+  - url: 'https://wallet-account-organization-svc-fjhmnd5asa-ew.a.run.app'
     description: Testing Server
 tags:
-  - name: Wallet Account Users
-    description: Wallet Account Users are used to handle wallet operations on user data
+  - name: Wallet Organizations
+    description: Wallet Organizations are used to handle operations on wallet organizations
     externalDocs:
-      url: 'https://wallet-gateway-svc-uzqgb7lfiq-ew.a.run.app'
+      url: 'https://wallet-account-organization-svc-fjhmnd5asa-ew.a.run.app'
 paths:
-  /v1/users:
+  /v1/organizations:
     get:
-      summary: Obtain a list of wallet account users
+      summary: Obtain a list of wallet organizations
       tags:
-        - Wallet Account Users
+        - Wallet Organizations
       responses:
         '200':
-          description: Successfully obtained the list of wallet account users
+          description: Successfully obtained list of wallet organizations
           content:
             application/json:
               schema:
@@ -93,34 +95,34 @@ paths:
                   data:
                     type: object
                     properties:
-                      walletAccountUser:
-                        $ref: '#/components/schemas/WalletAccountUsersWithId'
+                      walletOrganizations:
+                        $ref: '#/components/schemas/WalletOrganizationsWithId'
 
         '500':
-          description: Error when obtaining the list of wallet account users
+          description: Error when obtaining list of wallet organizations
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: fail
-                statusCode: 4001
-                statusDescription: Error when obtaining the list of wallet account users
+                statusCode: 6001
+                statusDescription: Error when obtaining list of wallet organizations
 
     post:
-      summary: Create a Wallet Account User
+      summary: Create a Wallet Organization
       tags:
-        - Wallet Account Users
+        - Wallet Organizations
       requestBody:
-        description: The wallet account user specification
+        description: The wallet Organization specification
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WalletAccountUser'
+              $ref: '#/components/schemas/WalletOrganization'
       responses:
         '201':
-          description: Successfully created a wallet account user
+          description: Successfully created wallet organization
           content:
             application/json:
               schema:
@@ -131,25 +133,25 @@ paths:
                   data:
                     type: object
                     properties:
-                      walletAccountUser:
-                        $ref: '#/components/schemas/WalletAccountUserWithId'
+                      walletOrganizationWithId:
+                        $ref: '#/components/schemas/WalletOrganizationWithId'
         '500':
-          description: Error when creating the wallet account user
+          description: Error when creating wallet organization
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: fail
-                statusCode: 4010
-                statusDescription: Error when creating the wallet account user
-  /v1/users/{userId}:
+                statusCode: 6010
+                statusDescription: Error when creating wallet organization
+  /v1/organizations/{organizationId}:
     get:
-      summary: Fetch user data
+      summary: Fetch wallet organization data
       tags:
-       - Wallet Account Users
+       - Wallet Organizations
       parameters:
-        - name: userId
+        - name: organizationId
           in: path
           required: true
           schema:
@@ -157,7 +159,7 @@ paths:
             example: 6784bbea-ea94-426e-bb64-594eeee6cb03
       responses:
         '200':
-          description: Successfully fetched a wallet account user
+          description: Successfully fetched wallet organization data
           content:
             application/json:
               schema:
@@ -168,49 +170,49 @@ paths:
                   data:
                     type: object
                     properties:
-                      walletAccountUser:
-                        $ref: '#/components/schemas/WalletAccountUserWithId'
+                      walletOrganization:
+                        $ref: '#/components/schemas/WalletOrganizationWithId'
         '404':
-          description: wallet account user not found
+          description: wallet organization not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: fail
-                statusCode: 4020
-                statusDescription: wallet account user not found
+                statusCode: 6020
+                statusDescription: wallet organization not found
         '500':
-          description: Error when fetching the wallet account user
+          description: Error when fetching wallet organization
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
                 status: fail
-                statusCode: 4021
-                statusDescription: Error when fetching the wallet account user
+                statusCode: 6021
+                statusDescription: Error when fetching wallet organization
     patch:
-      summary: Update a Wallet Account User
+      summary: Update wallet organization data
       tags:
-        - Wallet Account Users
+        - Wallet Organizations
       parameters:
-        - name: userId
+        - name: organizationId
           in: path
           required: true
           schema:
             type: string
             example: 6784bbea-ea94-426e-bb64-594eeee6cb03
       requestBody:
-        description: The wallet account user specification
+        description: The wallet organization specification
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/WalletAccountUser'
+              $ref: '#/components/schemas/WalletOrganization'
       responses:
         '201':
-          description: Successfully updated a wallet account user
+          description: Successfully updated wallet organization
           content:
             application/json:
               schema:
@@ -221,10 +223,10 @@ paths:
                   data:
                     type: object
                     properties:
-                      walletAccountUser:
-                        $ref: '#/components/schemas/WalletAccountUserWithId'
+                      walletOrganization:
+                        $ref: '#/components/schemas/WalletOrganizationWithId'
         '500':
-          description: Error when updating the wallet account user information
+          description: Error when updating the wallet account organization information
           content:
             application/json:
               schema:
@@ -232,7 +234,7 @@ paths:
               example:
                 status: fail
                 statusCode: 4030
-                statusDescription: Error when updating the wallet account user information
+                statusDescription: Error when updating the wallet account organization information
 
 components:
   schemas:
@@ -283,59 +285,87 @@ components:
         country:
           type: string
           example: United Kingdom
-    WalletAccountUser:
+    WalletOrganization:
       type: object
       properties:
-        lastName:
+        name:
           type: string
-          description: User last name
-          example: John
-        firstName:
-          type: string
-          description: User first name
-          example: Doe
+          description: wallet organization name
+          example: NBK
         address:
           $ref: '#/components/schemas/Address'
         email:
           type: string
-          description: user email address
+          description: wallet organization email address
           format: email
           example: my-email@gmail.com
         phoneNumber:
           type: string
-          description: User phone number
+          description: wallet organization phone number
           example: 00447307568957
         mobileNumber:
           type: string
-          description: User mobile number
+          description: wallet organization mobile number
           example: 00447307568957
-        language:
-          type: string
-          description: User language
-          example: en
-        walletOrganizations:
-          type: array
-          items:
-            type: string
-            format: uuid
-            example: 3288603f-adf8-453e-b4e9-cbad4805f86c
-    WalletAccountUserWithId:
+        applications:
+          $ref: '#/components/schemas/WalletClientApplications'
+        walletOrganizationDocuments:
+          $ref: '#/components/schemas/WalletOrganizationDocuments'
+    WalletOrganizationWithId:
       allOf:
-        - $ref: '#/components/schemas/WalletAccountUser'
+        - $ref: '#/components/schemas/WalletOrganization'
         - type: object
           required:
             - id
           properties:
             id:
               type: string
-              description: The user identifier
+              description: wallet organization identifier
               format: uuid
               example: 45466ea6-512d-42c7-b57f-d11c53890456
-    WalletAccountUsers:
+    WalletOrganizations:
       type: array
       items:
-        $ref: '#/components/schemas/WalletAccountUser'
-    WalletAccountUsersWithId:
+        $ref: '#/components/schemas/WalletOrganization'
+    WalletOrganizationsWithId:
       type: array
       items:
-        $ref: '#/components/schemas/WalletAccountUserWithId'
+        $ref: '#/components/schemas/WalletOrganizationWithId'
+    WalletClientApplication:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Application name
+          example: NBK App
+        credentials:
+          type: object
+          properties:
+            oauth2:
+              type: object
+              properties:
+                clientId:
+                  type: string
+                  description: OAuth2 client identifier
+                  example: 1t37i9t15h3rvlib7g1u7odp23
+                clientSecret:
+                  type: string
+                  description: oauth2 client secret
+                  example: avqbjl9vfeo1spfhv5qfp4ojrplg6guf3gv44q1hpvffk6nab8g
+    WalletClientApplications:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletClientApplication'
+    WalletOrganizationDocument:
+      type: object
+      properties:
+        documentId:
+          type: string
+          description: Wallet document identifier
+          format: uuid
+          example: 45466ea6-512d-42c7-b57f-d11c53890456
+    WalletOrganizationDocuments:
+      type: array
+      items:
+        $ref: '#/components/schemas/WalletOrganizationDocument'
+

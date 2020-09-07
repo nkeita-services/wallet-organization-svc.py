@@ -8,7 +8,7 @@ services:
         source: .
         target: /app
     environment:
-      PORT: 80
+      PORT: 8088
       DB_MONGO_USERNAME: root
       DB_MONGO_PASSWORD: wallet
       DB_MONGO_HOST: db
@@ -16,7 +16,7 @@ services:
       DB_MONGO_URI_SCHEME: mongodb
       DB_MONGO_DATABASE: walletDB
     ports:
-      - "8081:80"
+      - "8082:8088"
   db:
     image: mongo
     restart: always
@@ -24,4 +24,4 @@ services:
      MONGO_INITDB_ROOT_USERNAME: root
      MONGO_INITDB_ROOT_PASSWORD: wallet
     ports:
-      - "27016:27017"
+      - "27020:27017"

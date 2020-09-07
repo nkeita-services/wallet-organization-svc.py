@@ -1,6 +1,6 @@
 # wallet account 
 
-The wallet account  is a python 3 project that handles user data in a Mongo DB 
+The wallet organization is a python 3 project that handles organization data in a Mongo DB 
 
 ## Install python3
 ```
@@ -10,11 +10,11 @@ brew install python3
 ```
 sudo easy_install pip
 ```
-## Create and activate wallet-account-user virtual environment
+## Create and activate wallet-organization virtual environment
 ```
 make setup
 ```
-## Run wallet-account-user locally
+## Run wallet-organization locally
 ```
 make up
 ```
@@ -40,6 +40,6 @@ pip freeze > requirements.txt
 ## Environments
 | ENVIRONMENTS | URL                                                        |
 |--------------|------------------------------------------------------------|
-| DEV          | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
-| STAGING      | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
-| PRODUCTION   | https://wallet-account-user-svc-py-fjhmnd5asa-ew.a.run.app |
+| DEV          | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |
+| STAGING      | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |
+| PRODUCTION   | https://wallet-organization-svc-py-fjhmnd5asa-ew.a.run.app |
