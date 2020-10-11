@@ -65,10 +65,10 @@ def on_validation_error(e):
         {"status": "error", "statusCode": "6000", "statusDescription": e.message}), 400
 
 
-@app.errorhandler(Exception)
-def global_error(e):
-    return jsonify(
-        {"status": "error", "statusCode": "6050", "statusDescription": 'System Error'}), 500
+# @app.errorhandler(Exception)
+# def global_error(e):
+#     return jsonify(
+#         {"status": "error", "statusCode": "6050", "statusDescription": 'System Error'}), 500
 
 
 if __name__ == "__main__":
